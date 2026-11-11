@@ -2,31 +2,26 @@
 
 Target stack for these docs: **HTTP framework + sqlx (or equivalent) + SQL database**. Layers use concrete types with **manual dependency injection** unless the project already differs.
 
-## Folder structure (typical)
+## Folder structure
 
 ```
 api/
-├── cmd/                     # bootstrap, DI wiring, migrate CLI
-├── api/ or routes/          # route table + handler registry
-├── configs/                 # env, DB, storage, JWT, integrations
+├── main.go                  # process entrypoint
+├── app/                     # database setup, route table, DI wiring
+├── handler/                 # HTTP adapters
+├── service/                 # business logic
+├── repository/              # SQL access
+├── model/                   # entities, simple requests, list filters
+├── dto/                     # multi-entity / complex request DTOs
+├── middleware/              # auth, errors, request logging, CORS
+├── helper/                  # path/query/actor helpers
+├── integrations/            # external HTTP clients
 ├── migrations/              # .up.sql / .down.sql pairs
-├── docs/                    # OpenAPI / swag (optional)
-├── internal/
-│   ├── handler/             # HTTP adapters
-│   ├── service/             # business logic
-│   │   └── {domain}/        # optional: multi-table domain orchestration
-│   ├── repository/          # SQL access
-│   ├── model/               # entities, simple requests, list filters
-│   ├── dto/                 # multi-entity / complex request DTOs
-│   ├── middleware/          # auth, errors, request logging, CORS
-│   ├── helper/              # path/query/actor helpers
-│   ├── audit/               # row-level audit (optional)
-│   ├── storage/             # object storage (optional)
-│   └── integration/         # external HTTP clients (optional)
-└── pkg/                     # apperr, response, jwtutil, migrationutil, …
+├── assets/                  # static files
+└── test/                    # tests
 ```
 
-Adapt names to the project; keep the **roles** the same.
+Packages sit at the module root. Add a `service/{domain}` subpackage only when one aggregate spans multiple tables.
 
 ## Layers
 
