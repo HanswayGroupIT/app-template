@@ -1,0 +1,12 @@
+# env
+.env*
+!.env.example
+
+# binary
+agencyapi
+
+# docs (auto-generated, no need to commit)
+docs/
+
+# air
+tmp/
